@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Phân Chia 35 Học Sinh Thành 6 Nhóm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 p-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">📊 BẢNG PHÂN CHIA NHÓM HỌC SINH</h1>
+            <p class="text-slate-600 mb-4">Tổng số: 35 học sinh | Chia thành 6 nhóm (5 nhóm 6 người, 1 nhóm 5 người)</p>
+            <button onclick="chiaNhom()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition">
+                🔄 Bốc thăm chia nhóm
+            </button>
+        </div>
+
+        <!-- Bảng hiển thị 6 nhóm -->
+        <div id="gridNhom" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <script>
+        function chiaNhom() {
+            // Khởi tạo 35 học sinh
+            let hs = Array.from({length: 35}, (_, i) => `Học sinh ${i + 1}`);
+            
+            // Xáo trộn ngẫu nhiên
+            hs.sort(() => Math.random() - 0.5);
+
+            // Cấu hình sỉ số: 5 nhóm 6 người, 1 nhóm 5 người
+            const siso = [6, 6, 6, 6, 6, 5];
+            const grid = document.getElementById('gridNhom');
+            grid.innerHTML = '';
+
+            let index = 0;
+            siso.forEach((count, i) => {
+                const members = hs.slice(index, index + count);
+                index += count;
+
+                // Tạo bảng cho từng nhóm
+                let rows = members.map((m, idx) => `
+                    <tr class="${idx % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-b">
+                        <td class="py-2 px-4 text-sm font-medium text-slate-500">${idx + 1}</td>
+                        <td class="py-2 px-4 text-sm font-semibold text-slate-800">${m}</td>
+                    </tr>
+                `).join('');
+
+                grid.innerHTML += `
+                    <div class="bg-white rounded-xl shadow-md border border-slate-200 overflow-hidden">
+                        <div class="bg-indigo-600 text-white p-3 font-bold flex justify-between items-center">
+                            <span>NHÓM ${i + 1}</span>
+                            <span class="text-xs bg-indigo-800 px-2 py-1 rounded-full">${count} thành viên</span>
+                        </div>
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b text-slate-600 text-xs font-semibold">
+                                    <th class="py-2 px-4 w-12">STT</th>
+                                    <th class="py-2 px-4">Họ và Tên</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>
+                `;
+            });
+        }
+
+        // Chạy ngay lần đầu tải trang
+        chiaNhom();
+    </script>
+</body>
+</html>
