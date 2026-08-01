@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App - HSB2006</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold text-slate-800 mb-4 text-center">📋 Quản Lý Công Việc</h1>
+        
+        <!-- [User Story 1] Ô nhập và nút Thêm công việc -->
+        <div class="flex gap-2 mb-6">
+            <input type="text" id="taskInput" placeholder="Nhập công việc mới..." 
+                   class="flex-1 border border-slate-300 rounded-lg px-3 py-2 outline-none focus:border-blue-500">
+            <button onclick="addTask()" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Thêm</button>
+        </div>
+
+        <!-- Danh sách công việc -->
+        <ul id="taskList" class="space-y-2"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const text = input.value.trim();
+            if (!text) return alert("Vui lòng nhập công việc!");
+
+            const li = document.createElement('li');
+            li.className = "flex items-center justify-between bg-slate-50 p-3 rounded-lg border border-slate-200";
+            li.innerHTML = `
+                <!-- [User Story 2] Đánh dấu hoàn thành -->
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" onchange="this.nextElementSibling.classList.toggle('line-through', this.checked); this.nextElementSibling.classList.toggle('text-gray-400', this.checked)" class="w-4 h-4 text-blue-600">
+                    <span class="text-slate-700 font-medium">${text}</span>
+                </div>
+                <!-- [User Story 3] Xóa công việc -->
+                <button onclick="this.parentElement.remove()" class="text-red-500 hover:text-red-700 text-sm font-semibold">Xóa</button>
+            `;
+            document.getElementById('taskList').appendChild(li);
+            input.value = '';
+        }
+    </script>
+</body>
+</html>
